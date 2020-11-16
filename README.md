@@ -20,6 +20,15 @@ While I am working on adding parallel processing, setting the 'parrallelize' par
 General disclaimer: this project is still in its infancy, so expect to run into problems.
 Check out the examples folder to see it in action. Runtimes can be recorded in just a few lines and accessed with just a few more. Hopefully this helps out your project.
 
+
+To install:
+
+- Clone this repo
+
+- cd into the new directory
+
+- Run ```pip install -e .```
+
 Feel free to reach out at: rohin.dasari@gmail.com
 
 
