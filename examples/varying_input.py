@@ -17,8 +17,8 @@ if __name__ == '__main__':
     arr_sizes = []
     for i in tqdm(range(5, 1000, 100)):
         sample = random.choices(range(MIN, MAX), k=i)
-        thing = bubbleSort(sample, timeme=True, timeme_params={'parallelize':True})
-        thing = mergeSort(sample, timeme=True, timeme_params={'parallelize': True})
+        thing = bubbleSort(sample, timeme=True)
+        thing = mergeSort(sample, timeme=True)
         experiment = Timer.records['sorting_experiment']
         arr_sizes.append(int(i))
         bubble_sort_mean.append(
