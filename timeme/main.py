@@ -76,6 +76,10 @@ class Timer:
             self.nprocs = nprocs
 
     @classmethod
+    def clear_records(cls):
+        cls.records = defaultdict(dict)
+
+    @classmethod
     def records_as_df(cls):
         """
         return data stored in records as dataframe
@@ -122,12 +126,13 @@ class Timer:
         return return_val, trial_runs
 
     def record_results(self, results, f_name, f_args, f_kwargs):
-        if len(self.records[self.name].keys()) == 0:
+        if len(self.records[copy(self.name)].keys()) == 0:
             self.records[self.name][f_name] = []
+
         record = Record(
                 data=results,
                 metadata={'args': f_args, 'kwargs': f_kwargs},
-                aggregate=None if self.profile is None else
+                aggregate=None if self.profile is True else
                          {
                          'mean': stats.mean(results),
                          'std_dev': stats.pstdev(results)
@@ -135,23 +140,26 @@ class Timer:
                 )
         self.records[self.name][f_name].append(record)
 
-    def override_defaults(self, params):
+    def set_attributes(self, params):
         """
         allow users to pass parameters to their functions to override
         the default behavior of the decorator they defined
         """
+        if params.items() is None: return
+        original_attrs = {}
         for k, v in params.items():
+            original_attrs[k] = getattr(self, k)
             setattr(self, k, v)
-        pass
+        return original_attrs
 
     def __call__(self, func):
-        # add cProfile capabilities
         @wraps(func)
         def wrapper(*args, **kwargs):
             timeme_args = ['timeme', 'timeme_params']
             kwargs_ = self.drop_from_dict(kwargs, timeme_args)
+            original_attrs = {}
             if 'timeme_params' in kwargs:
-                self.override_defaults(kwargs['timeme_params'])
+                original_attrs = self.set_attributes(kwargs['timeme_params'])
             if 'timeme' not in kwargs or not kwargs['timeme']:
                 return func(*args, **kwargs_)
 
@@ -166,22 +174,12 @@ class Timer:
                         *args,
                         **kwargs_)
             self.record_results(trials, func.__name__, args, kwargs)
+            self.set_attributes(original_attrs)
 
             return return_val
         return wrapper
 
 
-@Timer('sample_experiment',
-       trials=5,
-       pbar=False,
-       parallelize=True)
-def test(a: int, b: int):
-    return a+b
-
-
-if __name__ == '__main__':
-    thing = test(1, 2, timeme=True)
-    print(thing)
 
 
 
