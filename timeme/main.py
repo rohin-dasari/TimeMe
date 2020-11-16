@@ -6,9 +6,9 @@ import multiprocessing as mp
 from functools import wraps
 from copy import copy
 import sys
-import pandas as pd
 import cProfile
 from dataclasses import dataclass
+import inspect
 
 
 @dataclass
@@ -76,10 +76,6 @@ class Timer:
             self.nprocs = nprocs
 
     @classmethod
-    def clear_records(cls):
-        cls.records = defaultdict(dict)
-
-    @classmethod
     def records_as_df(cls):
         """
         return data stored in records as dataframe
@@ -105,8 +101,8 @@ class Timer:
     def parallel_time_trials(self, func, *args, **kwargs):
         iterable = self.get_iterable()
         # get the original function
-        f = getattr(sys.modules[__name__], func.__name__)
-        iterable_args = [(f, args, kwargs) for i in iterable]
+        #f = getattr(sys.modules[__name__], func.__name__)
+        iterable_args = [(func, args, kwargs) for i in iterable]
         pbar = tqdm(total=len(iterable)) if self.pbar else None
         return_val, trial_runs = parmap(
                 timeme_par if not self.profile else profileme_par,
@@ -126,7 +122,7 @@ class Timer:
         return return_val, trial_runs
 
     def record_results(self, results, f_name, f_args, f_kwargs):
-        if len(self.records[copy(self.name)].keys()) == 0:
+        if f_name not in [*self.records[copy(self.name)].keys()]:
             self.records[self.name][f_name] = []
 
         record = Record(
@@ -155,6 +151,7 @@ class Timer:
     def __call__(self, func):
         @wraps(func)
         def wrapper(*args, **kwargs):
+            print(inspect.getmodule(func))
             timeme_args = ['timeme', 'timeme_params']
             kwargs_ = self.drop_from_dict(kwargs, timeme_args)
             original_attrs = {}
@@ -177,6 +174,7 @@ class Timer:
             self.set_attributes(original_attrs)
 
             return return_val
+        wrapper._original = func
         return wrapper
 
 
