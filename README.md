@@ -13,7 +13,7 @@ then plot it. How many times will you do the same thing over and over again?
 
 For example:
  
-I have a function like this:
+Say you have a function like this:
 
 ```python
 
