@@ -77,6 +77,28 @@ analysis as your heart desires.
 TimeMe is a tool that will make sure you never have to write annoying
 boilerplate code to evaluate the runtime of your code.
 
+## Examples
+
+Clone the repo and run the examples to see how TimeMe works for yourself.
+
+To build the project from github, clone the repo and run the following at the
+root of the project directory
+
+```
+pip install -e .
+```
+
+Then navigate to the examples directory and take a look around.
+
+Run `python compare.py` to get a basic assessment between bubble sort and merge
+sort. The code will run 100 trials on each function, record the runtime, and
+report the mean and standard deviations.
+
+Run `python varying_input.py` to see the same functions but with varying inputs.
+This example will also graph the runtime of each function according to the
+input size. Make sure you have `matplotlib` installed for this example.
+
+
 ## Questions?
 
 Feel free to reach out at: rohin.dasari@gmail.com
