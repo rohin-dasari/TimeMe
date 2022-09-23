@@ -1,10 +1,11 @@
-Metadata-Version: 1.2
+Metadata-Version: 2.1
 Name: TimeMe
 Version: 0.0.1
 Summary: A small package to help         time/profile the execution of functions         and manage experiments measuring run time
-Home-page: UNKNOWN
 Author: Rohin Dasari
 License: UNKNOWN
-Description: UNKNOWN
 Platform: UNKNOWN
 Requires-Python: >=3.6
+
+UNKNOWN
+

@@ -7,7 +7,6 @@ import numpy as np
 
 
 if __name__ == '__main__':
-    print('also look here: ', __name__) 
     MIN = 0
     MAX = 1000
     bubble_sort_mean = []
