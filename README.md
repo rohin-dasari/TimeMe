@@ -24,7 +24,7 @@ def foo():
 ```
 
 
-Now, if I want to time it, I have to do something like this:
+Now, if you want to time it, you have to do something like this:
 
 ```python
 
