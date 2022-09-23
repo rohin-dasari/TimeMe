@@ -1,10 +1,12 @@
+LICENSE.txt
 README.md
+pyproject.toml
 setup.py
 TimeMe.egg-info/PKG-INFO
 TimeMe.egg-info/SOURCES.txt
 TimeMe.egg-info/dependency_links.txt
+TimeMe.egg-info/requires.txt
 TimeMe.egg-info/top_level.txt
 timeme/__init__.py
-timeme/main.py
 timeme/timer.py
 timeme/timer_utils.py

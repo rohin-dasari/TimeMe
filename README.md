@@ -3,6 +3,15 @@
 A small python pacakge to time the execution of functions, organize the results,
 and manage larger experiments involving runtime and profiling of code.
 
+## Download
+
+```
+pip install Please-TimeMe==0.0.1
+```
+
+Check the pypi page here: https://pypi.org/project/Please-TimeMe/0.0.1/
+
+
 ## Why TimeMe?
 
 Ever want to test out how fast your function really is? Maybe you want to test
