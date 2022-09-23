@@ -1,33 +1,83 @@
-TimeMe is a small python pacakge to time the execution of functions and methods and help you manage
-your experiments involving measuring runtime of code
+# TimeMe
+
+A small python pacakge to time the execution of functions, organize the results,
+and manage larger experiments involving runtime and profiling of code.
+
+## Why TimeMe?
+
+Ever want to test out how fast your function really is? Maybe you want to test
+and compare multiple functions. You used to have to write a quick block of code
+to time the execution of your function, and in some cases, even write your own
+decorator. You might then store the results in some array, compute some stats,
+then plot it. How many times will you do the same thing over and over again?
+
+For example:
+ 
+I have a function like this:
+
+```python
+
+def foo():
+    for i in range(10):
+        print(i)
+
+```
 
 
-The goal of TimeMe is to make it easier for you to time/profile your code without writing repetitive code to record times, manage the results of these time/profile experiments in a single place, and make it easy to compare the execution time of functions and methods.
+Now, if I want to time it, I have to do something like this:
+
+```python
+
+import time
+
+start = time.time()
+foo()
+runtime = time.time() - start
+
+print(runtime)
+```
+
+Where do you store the runtime of the function? How do you make sure it is
+associated with the funciton `foo` with the particular parameters passed to it?
+Also what happens if you want to run multiple trials and take the average
+runtime?
+
+You used to have to write all this logic yourself, but here's how it looks with
+TimeMe:
+
+```python
+
+from timeme import Timer
+
+@Timer(name='foo_experiment', trials=100)
+def foo():
+    for i in range(10):
+        print(i)
+        
+        
+foo(timeme=true)
+runtime_data = Timer.records['foo_experiment']
+
+```
+
+TimeMe automatically tracks the runtime of your function as it executes, so you
+don't have to write any additional code. It also overrides your function
+parameters and adds an additional keyword argument, `timeme`. This allows you to
+toggle whether or not you want the runtime to be recorded. You can even run
+multiple trials. TimeMe will automatically store the data from each run and
+compute basic stats such as the mean and standard deviation of the trials.
+
+The data can be retrieved in the Timer object. Want to export it as a CSV or do
+even more analytics?
+
+TimeMe can export the data as a pandas dataframe so you can do as much data
+analysis as your heart desires.
 
 
-To Do:
+TimeMe is a tool that will make sure you never have to write annoying
+boilerplate code to evaluate the runtime of your code.
 
-Make Doxygen documentation/manual pages
-
-Fixing the parallel processing code in the decorator. This feature allows for multiple trials of a single function to run at once, speeding up testing for larger functions
-
-
-
-Warnings:
-
-While I am working on adding parallel processing, setting the 'parrallelize' parameter to True in the decorator or when overriding the function call will cause the calling code to break.
-
-General disclaimer: this project is still in its infancy, so expect to run into problems.
-Check out the examples folder to see it in action. Runtimes can be recorded in just a few lines and accessed with just a few more. Hopefully this helps out your project.
-
-
-To install:
-
-- Clone this repo
-
-- cd into the new directory
-
-- Run ```pip install -e .```
+## Questions?
 
 Feel free to reach out at: rohin.dasari@gmail.com
 
